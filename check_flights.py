@@ -8,7 +8,7 @@ load_dotenv()
 AVIATIONSTACK_API_KEY = os.getenv("AVIATIONSTACK_API_KEY")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-INPUT_HOURS = os.getenv("HOURS", "2").strip()
+INPUT_HOURS = os.getenv("HOURS", "1").strip()
 
 arr_iata = "WRO"
 hours = int(INPUT_HOURS)
@@ -20,7 +20,8 @@ params = {
     'arr_iata': arr_iata
 }
 
-now = datetime.now(timezone.utc)
+warsaw_offset = timezone(timedelta(hours=1))
+now = datetime.now(warsaw_offset)
 window_end = now + timedelta(hours=hours)
 
 response = requests.get(url, params=params, timeout=15)
@@ -34,6 +35,10 @@ for flight in flights:
     
     arrival_scheduled = (flight.get("arrival") or {}).get("scheduled", "N/A")
     arrival_dt = datetime.fromisoformat(arrival_scheduled)
+    if arrival_dt.tzinfo is None:
+        arrival_dt = arrival_dt.replace(tzinfo=warsaw_offset)
+    else:
+        arrival_dt = arrival_dt.astimezone(warsaw_offset)
 
     if now <= arrival_dt <= window_end:
         airline_name = (flight.get("airline") or {}).get("name", "N/A")
