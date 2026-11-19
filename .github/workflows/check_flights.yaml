@@ -2,7 +2,7 @@ name: check_flights
 
 on: 
   schedule:
-    - cron: " 0 12 * * *"
+    - cron: "0 12 * * *"
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
 
       - name: run python script
         env: 
-          AVIATIONSTACK_API_KEY = ${{ secrets.AVIATIONSTACK_API_KEY }}
-          TELEGRAM_BOT_TOKEN = ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID = ${{ secrets.TELEGRAM_CHAT_ID }}
+          AVIATIONSTACK_API_KEY: ${{ secrets.AVIATIONSTACK_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python check_flights.py
