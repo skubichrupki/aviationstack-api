@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
     inputs:
       hours:
-      description: "time window in hours"
-      required: false
-      default: "2"
-      type: string
+        description: "time window in hours"
+        required: false
+        default: "2"
+        type: string
 
 jobs:
   check-flights:
