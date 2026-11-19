@@ -1,0 +1,9 @@
+Run your script
+python check_flights.py
+
+powershell:
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
